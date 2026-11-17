@@ -168,7 +168,3 @@ O [checklist de validação](docs/Validacao-DotNet.md) registra as evidências e
 O identificador de User Secrets continua sendo `VagaCerta.Api`, para que o projeto renomeado use os mesmos arquivos locais de configuração. O banco MongoDB existente, o emissor `urn:vagacerta:development`, a audiência e as claims dos tokens de desenvolvimento mantêm seus valores. A suíte também mantém `VAGACERTA_TEST_MONGO_URI`, `VAGACERTA_TEST_MONGO_DATABASE` e o prefixo de proteção `vagacerta_test_` dos bancos de teste. As URLs da API e as coleções MongoDB são as mesmas.
 
 A pasta externa permanece `C:\Users\yurij\Documents\VagaCerta`. Para renomeá-la depois, feche a solução no Visual Studio, pare a API e encerre normalmente o MongoDB portátil. Feche o workspace no Codex e os terminais que estiverem dentro dessa pasta. No Explorador, a partir da pasta `Documents`, renomeie a pasta para `CadeMinhaConsulta`. Reabra `CadeMinhaConsulta.slnx` no novo caminho e inicie o MongoDB pelo script, que localiza os dados relativamente à raiz. Os User Secrets ficam fora da pasta do projeto.
-
-## Uso de IA
-
-Codex foi usado para apoiar o planejamento, a implementação da infraestrutura e os testes. A equipe deve revisar o código e registrar o uso na entrega acadêmica.
