@@ -1,5 +1,10 @@
 # Use a patient ID only with synthetic test data.
-param([long] $TestPatientOracleId = 0, [switch] $SavePublicSettings)
+param([long] $TestPatientOracleId = 0, [switch] $SavePublicSettings, [long] $SecondTestPatientOracleId = 0)
+
+if ($SecondTestPatientOracleId -gt 0 -and
+    ($TestPatientOracleId -le 0 -or $SecondTestPatientOracleId -eq $TestPatientOracleId)) {
+    throw 'Informe dois IDs fictícios diferentes para testar a titularidade.'
+}
 
 # Run from PowerShell 7. Only the public key is passed to the API process.
 $env:ASPNETCORE_ENVIRONMENT = 'Development'
@@ -12,7 +17,7 @@ function ConvertTo-Base64Url([byte[]] $Bytes) {
     [Convert]::ToBase64String($Bytes).TrimEnd('=').Replace('+', '-').Replace('/', '_')
 }
 
-function New-RoleToken([string] $Role, [string] $Subject, [System.Security.Cryptography.RSA] $SigningKey) {
+function New-RoleToken([string] $Role, [string] $Subject, [System.Security.Cryptography.RSA] $SigningKey, [long] $PatientId = 0) {
     $header = '{"alg":"RS256","typ":"JWT"}'
     $now = [DateTimeOffset]::UtcNow
     $claims = @{
@@ -23,8 +28,8 @@ function New-RoleToken([string] $Role, [string] $Subject, [System.Security.Crypt
         iat = $now.ToUnixTimeSeconds()
         exp = $now.AddMinutes(30).ToUnixTimeSeconds()
     }
-    if ($Role -eq 'CIDADAO' -and $TestPatientOracleId -gt 0) {
-        $claims['vagacerta_test_patient_id'] = $TestPatientOracleId
+    if ($Role -eq 'CIDADAO' -and $PatientId -gt 0) {
+        $claims['vagacerta_test_patient_id'] = $PatientId
     }
     $payload = $claims | ConvertTo-Json -Compress
     $encodedHeader = ConvertTo-Base64Url ([Text.Encoding]::UTF8.GetBytes($header))
@@ -56,10 +61,14 @@ try {
         $settings | ConvertTo-Json -Compress | dotnet user-secrets set --project $apiProject | Out-Null
         if ($LASTEXITCODE -ne 0) { throw 'Falha ao configurar a validação JWT de desenvolvimento em User Secrets.' }
     }
-    [pscustomobject]@{
+    $tokens = [ordered]@{
         Gestor = New-RoleToken 'GESTOR' 'demo-gestor' $rsa
-        Cidadao = New-RoleToken 'CIDADAO' 'demo-cidadao' $rsa
+        Cidadao = New-RoleToken 'CIDADAO' 'demo-cidadao' $rsa $TestPatientOracleId
     }
+    if ($SecondTestPatientOracleId -gt 0) {
+        $tokens['OutroCidadao'] = New-RoleToken 'CIDADAO' 'demo-cidadao-2' $rsa $SecondTestPatientOracleId
+    }
+    [pscustomobject]$tokens
 } finally {
     $rsa.Dispose()
 }

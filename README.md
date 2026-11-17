@@ -2,7 +2,7 @@
 
 API ASP.NET Core Minimal API com alvo `net10.0`. O Mobile React Native acessa Java e .NET diretamente. Java é responsável por usuários, pacientes, consultas, confirmações, cancelamentos, fila e realocação no Oracle DBv3. A API .NET lê o Oracle por EF Core e usa MongoDB para seus próprios dados. A validação JWT é local.
 
-Consulte a [arquitetura](docs/Arquitetura.md), a [configuração Oracle DBv3](docs/Oracle-DBv3.md) e as [evidências de validação](docs/Validacao-DotNet.md).
+Consulte a [arquitetura](docs/Arquitetura.md), a [configuração Oracle DBv3](docs/Oracle-DBv3.md), as [evidências de validação](docs/Validacao-DotNet.md) e o [roteiro para a banca](docs/Roteiro-Demonstracao.md).
 
 ## Executar localmente
 
@@ -60,7 +60,7 @@ O check Oracle faz um SELECT de até uma linha e omite os dados da resposta. Par
 
 O validador inicial aceita RS256 com chave pública configurada, `iss`, `aud` e expiração. Confirme o algoritmo e as claims com a equipe Java e teste um token emitido por ela. Antes de liberar acesso a dados, valide a correspondência entre a identidade autenticada e `ID_USUARIO`, a faixa dos IDs e o fuso de `DATA_HORA_CONSULTA`.
 
-MongoDB foi validado no servidor local, incluindo índices, concorrência, marcação de leitura e persistência após reiniciar o servidor e a API. A porta TCP 1521 do Oracle FIAP respondeu em uma verificação anterior. O check Oracle permaneceu não saudável durante a renomeação. A confirmação da sessão e a leitura real do DBv3 permanecem pendentes. O SQL do mapeamento EF Core foi validado localmente.
+O DBv3 foi implantado no Oracle FIAP e validado com 13 tabelas ativas. O Kestrel retornou HTTP 200 em `/health/live` e `/health/ready`, com Oracle e MongoDB saudáveis. No fluxo real, as consultas de dois titulares fictícios foram conferidas contra SELECTs no Oracle. O MongoDB persistiu as notificações e o estado de leitura. Veja o [relatório de validação](docs/Validacao-DotNet.md) e o [registro da implantação](docs/Oracle-DBv3.md).
 
 ## Notificações internas
 
@@ -75,11 +75,11 @@ As notificações são atualizadas **mediante consulta do Mobile**. Para cada co
 
 ### Testar pelo Swagger
 
-1. Configure os bancos de teste e os dados JWT acima. Use uma consulta fictícia `AGENDADA`, `CONFIRMADA` ou `CANCELADA` para o usuário do token.
+1. Configure os bancos de teste e os dados JWT acima. Use dois titulares com consultas fictícias `AGENDADA`, `CONFIRMADA` ou `CANCELADA`. Para a demonstração local, o povoamento validado contém os IDs de teste 2 e 3. Gere ambos os tokens na mesma sessão PowerShell com `$tokens = & .\tools\New-DevelopmentJwt.ps1 -TestPatientOracleId 2 -SecondTestPatientOracleId 3`.
 2. Inicie a API em `Development` conforme os comandos acima. Para testar a geração com Oracle real, confirme HTTP 200 no [readiness local](http://localhost:5050/health/ready). Com Oracle indisponível, o GET retorna 503. A marcação de leitura continua disponível para documentos que já existam no MongoDB.
-3. Abra o [Swagger local](http://localhost:5050/swagger). Clique em **Authorize** e cole apenas o JWT emitido pelo Java. Confirme HTTP 204 no diagnóstico antes de consultar dados.
+3. Abra o [Swagger local](http://localhost:5050/swagger). Clique em **Authorize** e cole o token do primeiro titular. Em desenvolvimento local, use `$tokens.Cidadao`. Para a integração com Java, use um JWT com o emissor, a audiência e as claims configurados. Confirme HTTP 204 no diagnóstico antes de consultar dados.
 4. Execute `GET /api/notifications/me` duas vezes e confira o mesmo ID para aquela consulta e status. Copie o ID e execute `PATCH /api/notifications/{id}/read` duas vezes. Ambos devem retornar 204 e o próximo GET deve trazer `isRead: true`.
-5. Autorize um segundo usuário fictício. O GET deve listar apenas o que pertence a ele. Um PATCH com o ID do primeiro usuário deve retornar 404.
+5. Autorize o segundo usuário fictício. Na demonstração local, use `$tokens.OutroCidadao`. O GET deve listar apenas o que pertence a ele. Um PATCH com o ID do primeiro usuário deve retornar 404.
 
 Exemplo fictício de GET:
 
@@ -161,7 +161,7 @@ O [contrato Mobile](docs/Contrato-Mobile.md) documenta a URL base por ambiente, 
 
 ## Entrega
 
-O [checklist de validação](docs/Validacao-DotNet.md) registra o teste e a evidência de cada critério da rubrica, as pendências e o roteiro de demonstração. O ZIP e o TXT de identificação do grupo devem ser preparados com os dados reais da equipe e o link definitivo do GitHub.
+O [checklist de validação](docs/Validacao-DotNet.md) registra as evidências e pendências, e o [roteiro para a banca](docs/Roteiro-Demonstracao.md) relaciona cada critério aos arquivos e testes. A entrega .NET é um ZIP com o link real do repositório GitHub com README e o TXT de identificação dos cinco integrantes. Inclua o PowerPoint se houver. O ZIP preliminar e o TXT ficam em `.local/entrega`, fora do Git. Preencha o link verdadeiro antes do envio.
 
 ## Compatibilidade após a renomeação
 
