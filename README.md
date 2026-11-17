@@ -163,8 +163,3 @@ O [contrato Mobile](docs/Contrato-Mobile.md) documenta a URL base por ambiente, 
 
 O [checklist de validação](docs/Validacao-DotNet.md) registra as evidências e pendências, e o [roteiro para a banca](docs/Roteiro-Demonstracao.md) relaciona cada critério aos arquivos e testes. A entrega .NET é um ZIP com o link real do repositório GitHub com README e o TXT de identificação dos cinco integrantes. Inclua o PowerPoint se houver. O ZIP preliminar e o TXT ficam em `.local/entrega`, fora do Git. Preencha o link verdadeiro antes do envio.
 
-## Compatibilidade após a renomeação
-
-O identificador de User Secrets continua sendo `VagaCerta.Api`, para que o projeto renomeado use os mesmos arquivos locais de configuração. O banco MongoDB existente, o emissor `urn:vagacerta:development`, a audiência e as claims dos tokens de desenvolvimento mantêm seus valores. A suíte também mantém `VAGACERTA_TEST_MONGO_URI`, `VAGACERTA_TEST_MONGO_DATABASE` e o prefixo de proteção `vagacerta_test_` dos bancos de teste. As URLs da API e as coleções MongoDB são as mesmas.
-
-A pasta externa permanece `C:\Users\yurij\Documents\VagaCerta`. Para renomeá-la depois, feche a solução no Visual Studio, pare a API e encerre normalmente o MongoDB portátil. Feche o workspace no Codex e os terminais que estiverem dentro dessa pasta. No Explorador, a partir da pasta `Documents`, renomeie a pasta para `CadeMinhaConsulta`. Reabra `CadeMinhaConsulta.slnx` no novo caminho e inicie o MongoDB pelo script, que localiza os dados relativamente à raiz. Os User Secrets ficam fora da pasta do projeto.
