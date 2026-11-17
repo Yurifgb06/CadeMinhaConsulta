@@ -1,6 +1,6 @@
 # Cadê Minha Consulta .NET
 
-API ASP.NET Core Minimal API com alvo `net10.0`. O Mobile React Native acessa Java e .NET diretamente. Java é responsável por usuários, pacientes, consultas, confirmações, cancelamentos, fila e realocação no Oracle DBv3. A API .NET lê o Oracle por EF Core e usa MongoDB para seus próprios dados. A validação JWT é local.
+API ASP.NET Core Minimal API com alvo `net10.0`. A arquitetura prevê que o Mobile React Native acesse Java e .NET diretamente. Java é responsável por usuários, pacientes, consultas, confirmações, cancelamentos, fila e realocação no Oracle DBv3. A API .NET lê o Oracle por EF Core e usa MongoDB para seus próprios dados. A validação JWT é local.
 
 Consulte a [arquitetura](docs/Arquitetura.md), a [configuração Oracle DBv3](docs/Oracle-DBv3.md), as [evidências de validação](docs/Validacao-DotNet.md) e o [roteiro para a banca](docs/Roteiro-Demonstracao.md).
 
@@ -157,7 +157,7 @@ Para incluir os dois cenários na suíte inteira, mantenha as variáveis configu
 
 ## Consumo pelo React Native
 
-O [contrato Mobile](docs/Contrato-Mobile.md) documenta a URL base por ambiente, autenticação, exemplos de `fetch` e o que falta para gravar a demonstração em React Native. O Swagger descreve todas as rotas disponíveis no perfil local, incluindo os endpoints públicos de saúde.
+O [contrato Mobile](docs/Contrato-Mobile.md) documenta a URL base por ambiente, autenticação e a tela de exemplo para listar regras. O backend respondeu à chamada HTTP de verificação. A execução e a captura no React Native dependem do projeto mantido pela equipe Mobile. O Swagger descreve todas as rotas disponíveis no perfil local, incluindo os endpoints públicos de saúde.
 
 ## Entrega
 

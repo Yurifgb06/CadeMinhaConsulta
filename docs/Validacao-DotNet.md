@@ -12,6 +12,7 @@
 - Após a atualização da senha, a implantação do DBv3 no Oracle FIAP foi concluída em `RM561450`. No Kestrel, `/health/live` e `/health/ready` retornaram 200 com Oracle e MongoDB saudáveis.
 - No fechamento, `restore`, `build` e `test` passaram novamente na solução. Resultado de **47 testes aprovados, zero falhas e zero pulados**, com as duas integrações MongoDB reais. O build teve zero avisos e zero erros.
 - Na checagem final pelo Kestrel, liveness, readiness e Swagger retornaram 200. Com uma regra fictícia em MongoDB isolado, confirmei CRUD, erros 400/401/403/404, replay com 201 idêntico, conflito 409 e 429 com `Retry-After`. `GET /api/reminder-rules` retornou 200 com JWT `CIDADAO` e o corpo da regra foi conferido. A chamada foi feita por HTTP no backend e ainda precisa ser repetida no aplicativo React Native.
+- Na preparação Mobile, o cliente HTTP Node.js confirmou `GET /api/reminder-rules` 200 com JWT `CIDADAO` e os campos esperados da regra. O mesmo token de demonstração recebeu 401 em `Production`. A suíte xUnit passou novamente com 47 aprovados. A [tela de exemplo](examples/ReminderRulesScreen.tsx) e os passos para obter a evidência no app estão no [contrato Mobile](Contrato-Mobile.md).
 
 ## Evidência por critério FIAP
 
@@ -37,6 +38,8 @@ Veja os [metadados e a preparação do DBv3](Oracle-DBv3.md). O teste de ponta a
 ## Demonstração
 
 O [roteiro da banca](Roteiro-Demonstracao.md) relaciona cada critério aos arquivos implementados, aos testes existentes e aos passos para demonstrá-lo. Também prepara respostas sobre arquitetura, autenticação, EF Core e idempotência. O [contrato React Native](Contrato-Mobile.md) inclui URL por ambiente e uma tela de exemplo para listar regras.
+
+A evidência de consumo pelo aplicativo depende da execução no projeto da equipe Mobile. A verificação HTTP no Kestrel comprova o comportamento da API .NET. A chamada e a captura da tela React Native continuam pendentes.
 
 ## Conferência da entrega
 

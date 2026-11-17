@@ -51,118 +51,28 @@ Trate `401` como sessão ausente ou inválida, `403` como acesso negado e `503` 
 
 Passe a URL da tabela e o JWT da sessão ao componente. Em uma demonstração local, gere o token `CIDADAO` pelo [roteiro de desenvolvimento](Roteiro-Demonstracao.md). O issuer de demonstração só é aceito em `Development`. Passe o token em tempo de execução, sem salvá-lo no código, no build ou em logs.
 
+O exemplo [ReminderRulesScreen.tsx](examples/ReminderRulesScreen.tsx) pode ser copiado para o app. Registre a tela na navegação existente e passe a URL .NET da configuração do app e o token da sessão:
+
 ```tsx
-import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, Button, FlatList, Text, View} from 'react-native';
+import {ReminderRulesScreen} from './ReminderRulesScreen';
 
-type Rule = {
-  id: string;
-  name: string;
-  daysBefore: number;
-  message: string;
-  isActive: boolean;
-};
-
-type ScreenState =
-  | {kind: 'loading'}
-  | {kind: 'error'; message: string}
-  | {kind: 'ready'; rules: Rule[]};
-
-function describeError(response: Response): string {
-  switch (response.status) {
-    case 401:
-      return 'Sessão inválida ou expirada. Entre novamente.';
-    case 403:
-      return 'Seu perfil não pode consultar as regras.';
-    case 429: {
-      const seconds = response.headers.get('Retry-After');
-      return seconds
-        ? 'Muitas tentativas. Aguarde ' + seconds + ' s.'
-        : 'Muitas tentativas. Aguarde antes de tentar novamente.';
-    }
-    case 503:
-      return 'Serviço temporariamente indisponível.';
-    default:
-      return 'Falha ao consultar as regras (HTTP ' + response.status + ').';
-  }
-}
-
-export function ReminderRulesScreen({
-  baseUrl,
-  accessToken,
-}: {
-  baseUrl: string;
-  accessToken: string;
-}) {
-  const [state, setState] = useState<ScreenState>({kind: 'loading'});
-  const [attempt, setAttempt] = useState(0);
-
-  useEffect(() => {
-    if (!accessToken) {
-      setState({kind: 'error', message: 'Entre para consultar as regras.'});
-      return;
-    }
-
-    const request = new AbortController();
-    const endpoint = baseUrl.replace(/\/+$/, '') + '/api/reminder-rules';
-    setState({kind: 'loading'});
-
-    async function load() {
-      try {
-        const response = await fetch(endpoint, {
-          headers: {
-            Authorization: 'Bearer ' + accessToken,
-            Accept: 'application/json',
-          },
-          signal: request.signal,
-        });
-        const result: ScreenState = response.ok
-          ? {kind: 'ready', rules: (await response.json()) as Rule[]}
-          : {kind: 'error', message: describeError(response)};
-        if (!request.signal.aborted) setState(result);
-      } catch {
-        if (!request.signal.aborted) {
-          setState({kind: 'error', message: 'Falha de rede ao consultar as regras.'});
-        }
-      }
-    }
-
-    void load();
-    return () => request.abort();
-  }, [baseUrl, accessToken, attempt]);
-
-  return (
-    <View style={{flex: 1, padding: 16}}>
-      <Text>Regras de lembrete</Text>
-      <Button
-        title="Atualizar"
-        onPress={() => setAttempt(value => value + 1)}
-        disabled={state.kind === 'loading'}
-      />
-      {state.kind === 'loading' && <ActivityIndicator />}
-      {state.kind === 'error' && <Text>{state.message}</Text>}
-      {state.kind === 'ready' && (
-        <FlatList
-          data={state.rules}
-          keyExtractor={rule => rule.id}
-          ListEmptyComponent={<Text>Nenhuma regra cadastrada.</Text>}
-          renderItem={({item}) => (
-            <View style={{marginTop: 12}}>
-              <Text>{item.name}</Text>
-              <Text>{item.daysBefore} dia(s) antes da consulta</Text>
-              <Text>{item.message}</Text>
-              <Text>{item.isActive ? 'Ativa' : 'Inativa'}</Text>
-            </View>
-          )}
-        />
-      )}
-    </View>
-  );
-}
+// Dentro da rota ou tela da equipe.
+<ReminderRulesScreen
+  baseUrl={dotnetBaseUrl}
+  accessToken={session.accessToken}
+/>;
 ```
+
+A tela mostra carregamento, lista vazia, dados e erro. O JWT segue no header `Authorization`. Em desenvolvimento, use uma sessão de teste fornecida em tempo de execução. O exemplo recebe o token por propriedade e não altera o login existente.
+
+### Validação HTTP disponível
+
+Em 17/11/2026, um cliente Node.js chamou o Kestrel real. O GET sem JWT retornou 401. Com um JWT `CIDADAO` de desenvolvimento, `GET /api/reminder-rules` retornou 200 e incluiu a regra fictícia criada para o teste. Oracle e MongoDB passaram no readiness. O mesmo JWT de demonstração retornou 401 quando o Kestrel foi iniciado em `Production`.
+
+O projeto React Native é mantido pela equipe Mobile e está fora deste workspace. A tela fica disponível como referência para integrar ao app existente. A execução e a captura no aplicativo são responsabilidade da equipe Mobile e continuam pendentes.
 
 ## Evidência Mobile pendente
 
-1. Configurar a URL base no projeto React Native da equipe e abrir um build em dispositivo ou emulador. Ainda não há execução Mobile registrada nesta solução .NET.
+1. No projeto React Native da equipe, integrar o exemplo à navegação e à sessão existentes. Configurar a URL .NET de acordo com o alvo de execução.
 2. Para uma demonstração independente do Oracle, criar uma regra pelo Swagger como `GESTOR` em um MongoDB de teste. Na tela React Native, chamar `GET /api/reminder-rules` com um token `CIDADAO` de teste e mostrar o dado retornado e o status 200.
-3. Repetir no React Native o fluxo já validado no Kestrel com Oracle e MongoDB reais. Usar uma consulta fictícia do DBv3 e um JWT aceito no ambiente com a claim de titularidade. Registrar GET 200 e PATCH 204 no app. Manter tokens fora de capturas de tela e logs.
+3. Executar a tela em um emulador ou aparelho Android. Registrar o título da regra exibido e o método, a rota e o status 200 no inspetor de rede ou no log do Kestrel durante a chamada. Mantenha tokens e headers de autenticação fora da captura.
