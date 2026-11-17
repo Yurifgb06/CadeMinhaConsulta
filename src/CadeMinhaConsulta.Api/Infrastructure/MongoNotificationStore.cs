@@ -1,7 +1,7 @@
 using MongoDB.Driver;
-using VagaCerta.Api.Features.Notifications;
+using CadeMinhaConsulta.Api.Features.Notifications;
 
-namespace VagaCerta.Api.Infrastructure;
+namespace CadeMinhaConsulta.Api.Infrastructure;
 
 internal sealed class MongoNotificationStore(IServiceProvider services, IConfiguration configuration)
     : INotificationStore

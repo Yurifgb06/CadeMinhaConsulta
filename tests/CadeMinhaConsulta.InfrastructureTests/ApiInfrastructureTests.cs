@@ -12,12 +12,12 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.IdentityModel.Tokens;
 using Xunit;
 
-namespace VagaCerta.InfrastructureTests;
+namespace CadeMinhaConsulta.InfrastructureTests;
 
 public sealed class ApiInfrastructureTests : IDisposable
 {
     private const string Issuer = "https://issuer.example.test";
-    private const string Audience = "vagacerta-dotnet-test";
+    private const string Audience = "cade-minha-consulta-dotnet-test";
     private const string AuthPath = "/api/diagnostics/auth";
     private readonly RSA signingKey = RSA.Create(2048);
 
@@ -73,6 +73,7 @@ public sealed class ApiInfrastructureTests : IDisposable
         using var document = JsonDocument.Parse(await response.Content.ReadAsStringAsync());
 
         var root = document.RootElement;
+        Assert.Equal("Cadê Minha Consulta API", root.GetProperty("info").GetProperty("title").GetString());
         var bearer = root.GetProperty("components").GetProperty("securitySchemes").GetProperty("bearer");
         Assert.Equal("bearer", bearer.GetProperty("scheme").GetString());
         var paths = root.GetProperty("paths");

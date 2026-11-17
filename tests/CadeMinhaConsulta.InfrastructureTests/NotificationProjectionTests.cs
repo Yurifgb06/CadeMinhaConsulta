@@ -1,10 +1,10 @@
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
-using VagaCerta.Api.Features.Notifications;
-using VagaCerta.Api.Infrastructure;
+using CadeMinhaConsulta.Api.Features.Notifications;
+using CadeMinhaConsulta.Api.Infrastructure;
 using Xunit;
 
-namespace VagaCerta.InfrastructureTests;
+namespace CadeMinhaConsulta.InfrastructureTests;
 
 public sealed class NotificationProjectionTests
 {

@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using VagaCerta.Api.Infrastructure;
+using CadeMinhaConsulta.Api.Infrastructure;
 using Xunit;
 
-namespace VagaCerta.InfrastructureTests;
+namespace CadeMinhaConsulta.InfrastructureTests;
 
 public sealed class OracleMappingTests
 {

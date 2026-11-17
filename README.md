@@ -1,4 +1,4 @@
-# Vaga Certa .NET
+# Cadê Minha Consulta .NET
 
 API ASP.NET Core Minimal API com alvo `net10.0`. O Mobile React Native acessa Java e .NET diretamente. Java é responsável por usuários, pacientes, consultas, confirmações, cancelamentos, fila e realocação no Oracle DBv3. A API .NET lê o Oracle por EF Core e usa MongoDB para seus próprios dados. A validação JWT é local.
 
@@ -14,22 +14,22 @@ No Windows, baixe o MongoDB Community 8.0.38 portátil e confira o SHA-256 do ZI
 .\tools\Start-LocalMongo.ps1 -Foreground
 ```
 
-No ambiente validado, a conexão local e o banco `vagacerta_dev` já estão em User Secrets. Nas demais máquinas, configure `ConnectionStrings:Mongo` e `Mongo:Database` em **Gerenciar Segredos do Usuário** no projeto `VagaCerta.Api`. Para o Oracle, configure `ConnectionStrings:Oracle` e `Oracle:Schema` no mesmo local quando houver um DBv3 de teste disponível. Use uma conta somente leitura e mantenha os valores fora do repositório.
+No ambiente validado, a conexão local e o banco `vagacerta_dev` já estão em User Secrets. Nas demais máquinas, configure `ConnectionStrings:Mongo` e `Mongo:Database` em **Gerenciar Segredos do Usuário** no projeto `CadeMinhaConsulta.Api`. Para o Oracle, configure `ConnectionStrings:Oracle` e `Oracle:Schema` no mesmo local quando houver um DBv3 de teste disponível. Use uma conta somente leitura e mantenha os valores fora do repositório.
 
 ### Visual Studio
 
-1. Abra `VagaCerta.slnx` no Visual Studio com o workload de desenvolvimento web ASP.NET e selecione `VagaCerta.Api` como projeto de inicialização.
+1. Abra `CadeMinhaConsulta.slnx` no Visual Studio com o workload de desenvolvimento web ASP.NET e selecione `CadeMinhaConsulta.Api` como projeto de inicialização.
 2. No PowerShell 7, gere os tokens locais de teste com `$tokens = & .\tools\New-DevelopmentJwt.ps1 -SavePublicSettings`. Essa opção atualiza as configurações locais de validação JWT para o emissor de demonstração e grava apenas a parte pública em User Secrets. Copie o token desejado com `$tokens.Gestor | Set-Clipboard` ou `$tokens.Cidadao | Set-Clipboard`.
-3. Execute o perfil **VagaCerta.Api** com F5 ou Ctrl+F5. O perfil abre o Swagger em `http://localhost:5050`. Clique em **Authorize** e cole o token. Regenere os tokens após 30 minutos.
+3. Execute o perfil **CadeMinhaConsulta.Api** com F5 ou Ctrl+F5. O perfil abre o Swagger em `http://localhost:5050`. Clique em **Authorize** e cole o token. Regenere os tokens após 30 minutos.
 
 ### Terminal
 
 ```powershell
-dotnet restore VagaCerta.slnx
-dotnet build VagaCerta.slnx --no-restore
-dotnet test VagaCerta.slnx --no-build --no-restore
+dotnet restore CadeMinhaConsulta.slnx
+dotnet build CadeMinhaConsulta.slnx --no-restore
+dotnet test CadeMinhaConsulta.slnx --no-build --no-restore
 $env:ASPNETCORE_ENVIRONMENT = 'Development'
-dotnet run --project src/VagaCerta.Api -- --urls http://localhost:5050
+dotnet run --project src/CadeMinhaConsulta.Api -- --urls http://localhost:5050
 ```
 
 Use HTTP apenas para rodar localmente no loopback. Use HTTPS no ambiente acessado pelo Mobile. Configure as variáveis de ambiente abaixo ou use User Secrets no projeto da API em desenvolvimento.
@@ -39,7 +39,7 @@ Use HTTP apenas para rodar localmente no loopback. Use HTTPS no ambiente acessad
 | `ConnectionStrings__Oracle` | Conexão Oracle com uma conta dedicada. A conta precisa de permissão de sessão e de leitura sobre `TB_GS_CONSULTA` no schema proprietário. |
 | `Oracle__Schema` | Nome do schema proprietário do DBv3, conforme cadastrado no Oracle. |
 | `ConnectionStrings__Mongo` | URI do MongoDB do ambiente. |
-| `Mongo__Database` | Banco reservado para os dados .NET do Vaga Certa. |
+| `Mongo__Database` | Banco reservado para os dados .NET do Cadê Minha Consulta. |
 | `Jwt__Issuer` | Emissor acordado com Java. |
 | `Jwt__Audience` | Audiência .NET acordada com Java. |
 | `Jwt__PublicKeyPem` | Conteúdo PEM da chave pública RSA. Em PowerShell, use `Get-Content -Raw` para ler o arquivo da chave pública. |
@@ -60,7 +60,7 @@ O check Oracle faz um SELECT de até uma linha e omite os dados da resposta. Par
 
 O validador inicial aceita RS256 com chave pública configurada, `iss`, `aud` e expiração. Confirme o algoritmo e as claims com a equipe Java e teste um token emitido por ela. Antes de liberar acesso a dados, valide a correspondência entre a identidade autenticada e `ID_USUARIO`, a faixa dos IDs e o fuso de `DATA_HORA_CONSULTA`.
 
-MongoDB foi validado no servidor local, incluindo índices, concorrência, marcação de leitura e persistência após reiniciar o servidor e a API. A porta TCP 1521 do Oracle FIAP respondeu. A sessão e a leitura real permanecem pendentes até configurar `ConnectionStrings:Oracle` e `Oracle:Schema` em User Secrets. O SQL do mapeamento EF Core foi validado localmente.
+MongoDB foi validado no servidor local, incluindo índices, concorrência, marcação de leitura e persistência após reiniciar o servidor e a API. A porta TCP 1521 do Oracle FIAP respondeu em uma verificação anterior. O check Oracle permaneceu não saudável durante a renomeação. A confirmação da sessão e a leitura real do DBv3 permanecem pendentes. O SQL do mapeamento EF Core foi validado localmente.
 
 ## Notificações internas
 
@@ -124,7 +124,7 @@ O PUT altera apenas a versão atual. O DELETE retira a regra das consultas e man
 
    ```powershell
    $tokens = & .\tools\New-DevelopmentJwt.ps1
-   dotnet run --project src/VagaCerta.Api -- --urls http://localhost:5050
+   dotnet run --project src/CadeMinhaConsulta.Api -- --urls http://localhost:5050
    ```
 
    O script cria uma chave RSA efêmera e tokens de 30 minutos para GESTOR e CIDADAO. A API rejeita o emissor de demonstração fora de `Development`. Para copiar um token na mesma sessão do PowerShell, use `$tokens.Gestor | Set-Clipboard` ou `$tokens.Cidadao | Set-Clipboard`. Se a API estiver rodando em primeiro plano, copie o token antes de iniciá-la ou use um servidor iniciado em background com a mesma configuração.
@@ -150,10 +150,10 @@ Configure `VAGACERTA_TEST_MONGO_URI` e `VAGACERTA_TEST_MONGO_DATABASE` com um ba
 ```powershell
 $env:VAGACERTA_TEST_MONGO_URI = 'mongodb://127.0.0.1:27017'
 $env:VAGACERTA_TEST_MONGO_DATABASE = 'vagacerta_test_local'
-dotnet test VagaCerta.slnx --filter 'Dependency=MongoDB'
+dotnet test CadeMinhaConsulta.slnx --filter 'Dependency=MongoDB'
 ```
 
-Para incluir os dois cenários na suíte inteira, mantenha as variáveis configuradas e execute `dotnet test VagaCerta.slnx`. Sem elas, esses dois testes são pulados. Os demais cenários cobrem HTTP em memória, JWT assinado para testes, BSON e SQL Oracle gerado.
+Para incluir os dois cenários na suíte inteira, mantenha as variáveis configuradas e execute `dotnet test CadeMinhaConsulta.slnx`. Sem elas, esses dois testes são pulados. Os demais cenários cobrem HTTP em memória, JWT assinado para testes, BSON e SQL Oracle gerado.
 
 ## Consumo pelo React Native
 
@@ -162,6 +162,12 @@ O [contrato Mobile](docs/Contrato-Mobile.md) documenta a URL base por ambiente, 
 ## Entrega
 
 O [checklist de validação](docs/Validacao-DotNet.md) registra o teste e a evidência de cada critério da rubrica, as pendências e o roteiro de demonstração. O ZIP e o TXT de identificação do grupo devem ser preparados com os dados reais da equipe e o link definitivo do GitHub.
+
+## Compatibilidade após a renomeação
+
+O identificador de User Secrets continua sendo `VagaCerta.Api`, para que o projeto renomeado use os mesmos arquivos locais de configuração. O banco MongoDB existente, o emissor `urn:vagacerta:development`, a audiência e as claims dos tokens de desenvolvimento mantêm seus valores. A suíte também mantém `VAGACERTA_TEST_MONGO_URI`, `VAGACERTA_TEST_MONGO_DATABASE` e o prefixo de proteção `vagacerta_test_` dos bancos de teste. As URLs da API e as coleções MongoDB são as mesmas.
+
+A pasta externa permanece `C:\Users\yurij\Documents\VagaCerta`. Para renomeá-la depois, feche a solução no Visual Studio, pare a API e encerre normalmente o MongoDB portátil. Feche o workspace no Codex e os terminais que estiverem dentro dessa pasta. No Explorador, a partir da pasta `Documents`, renomeie a pasta para `CadeMinhaConsulta`. Reabra `CadeMinhaConsulta.slnx` no novo caminho e inicie o MongoDB pelo script, que localiza os dados relativamente à raiz. Os User Secrets ficam fora da pasta do projeto.
 
 ## Uso de IA
 

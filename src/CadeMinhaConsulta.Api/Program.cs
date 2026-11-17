@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.OpenApi;
 using MongoDB.Driver;
-using VagaCerta.Api.Features.Notifications;
-using VagaCerta.Api.Features.ReminderRules;
-using VagaCerta.Api.Infrastructure;
+using CadeMinhaConsulta.Api.Features.Notifications;
+using CadeMinhaConsulta.Api.Features.ReminderRules;
+using CadeMinhaConsulta.Api.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddProblemDetails();
-builder.Services.AddVagaCertaAuthentication(builder.Configuration, builder.Environment);
+builder.Services.AddCadeMinhaConsultaAuthentication(builder.Configuration, builder.Environment);
 builder.Services.AddSingleton(TimeProvider.System);
 builder.Services.AddScoped<IPatientAppointments, OraclePatientAppointments>();
 builder.Services.AddScoped<INotificationStore, MongoNotificationStore>();
@@ -71,7 +71,7 @@ builder.Services.AddOptions<RateLimiterOptions>().Configure<IConfiguration>((opt
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
 {
-    options.SwaggerDoc("v1", new OpenApiInfo { Title = "Vaga Certa API", Version = "v1" });
+    options.SwaggerDoc("v1", new OpenApiInfo { Title = "Cadê Minha Consulta API", Version = "v1" });
     options.AddSecurityDefinition("bearer", new OpenApiSecurityScheme
     {
         Type = SecuritySchemeType.Http,

@@ -2,7 +2,7 @@ using System.Security.Cryptography;
 using System.Text.Json;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace VagaCerta.Api.Features.ReminderRules;
+namespace CadeMinhaConsulta.Api.Features.ReminderRules;
 
 internal sealed record ReminderRuleInput(string? Name, int? DaysBefore, string? Message, bool? IsActive)
 {

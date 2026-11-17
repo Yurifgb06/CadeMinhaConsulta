@@ -1,7 +1,7 @@
 using MongoDB.Driver;
-using VagaCerta.Api.Features.ReminderRules;
+using CadeMinhaConsulta.Api.Features.ReminderRules;
 
-namespace VagaCerta.Api.Infrastructure;
+namespace CadeMinhaConsulta.Api.Infrastructure;
 
 internal sealed class MongoReminderRuleStore(IServiceProvider services, IConfiguration configuration)
     : IReminderRuleStore

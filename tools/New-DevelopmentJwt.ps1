@@ -43,7 +43,7 @@ try {
         $env:Jwt__OracleUserIdClaim = 'vagacerta_test_patient_id'
     }
     if ($SavePublicSettings) {
-        $apiProject = Join-Path (Split-Path -Parent $PSScriptRoot) 'src\VagaCerta.Api'
+        $apiProject = Join-Path (Split-Path -Parent $PSScriptRoot) 'src\CadeMinhaConsulta.Api'
         $settings = @{
             'Jwt:Issuer' = $env:Jwt__Issuer
             'Jwt:Audience' = $env:Jwt__Audience

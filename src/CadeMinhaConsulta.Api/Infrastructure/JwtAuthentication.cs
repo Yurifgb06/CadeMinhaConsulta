@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 
-namespace VagaCerta.Api.Infrastructure;
+namespace CadeMinhaConsulta.Api.Infrastructure;
 
 internal static class JwtAuthentication
 {
@@ -12,7 +12,7 @@ internal static class JwtAuthentication
     public const string ReminderRuleReader = "ReminderRuleReader";
     public const string DevelopmentIssuer = "urn:vagacerta:development";
 
-    public static void AddVagaCertaAuthentication(
+    public static void AddCadeMinhaConsultaAuthentication(
         this IServiceCollection services, IConfiguration configuration, IHostEnvironment environment)
     {
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

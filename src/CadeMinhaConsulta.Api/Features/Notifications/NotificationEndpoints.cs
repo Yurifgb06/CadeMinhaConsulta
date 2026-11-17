@@ -4,7 +4,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Http.HttpResults;
 using MongoDB.Driver;
 
-namespace VagaCerta.Api.Features.Notifications;
+namespace CadeMinhaConsulta.Api.Features.Notifications;
 
 internal static class NotificationEndpoints
 {

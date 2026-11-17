@@ -2,9 +2,9 @@ using System.Globalization;
 using System.Security.Cryptography;
 using System.Text;
 using MongoDB.Bson.Serialization.Attributes;
-using VagaCerta.Api.Infrastructure;
+using CadeMinhaConsulta.Api.Infrastructure;
 
-namespace VagaCerta.Api.Features.Notifications;
+namespace CadeMinhaConsulta.Api.Features.Notifications;
 
 internal sealed record Notification(
     [property: BsonId] string Id,

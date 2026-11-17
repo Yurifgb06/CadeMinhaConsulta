@@ -15,17 +15,17 @@ using Microsoft.IdentityModel.Tokens;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
-using VagaCerta.Api.Features.ReminderRules;
-using VagaCerta.Api.Infrastructure;
+using CadeMinhaConsulta.Api.Features.ReminderRules;
+using CadeMinhaConsulta.Api.Infrastructure;
 using Xunit;
 
-namespace VagaCerta.InfrastructureTests;
+namespace CadeMinhaConsulta.InfrastructureTests;
 
 public sealed class ReminderRuleTests : IDisposable
 {
     private const string Path = "/api/reminder-rules";
     private const string Issuer = "https://issuer.example.test";
-    private const string Audience = "vagacerta-reminders-test";
+    private const string Audience = "cade-minha-consulta-reminders-test";
     private static readonly ReminderRuleInput Valid = new("Consulta em dois dias", 2, "Confira o horário.", true);
     private readonly RSA signingKey = RSA.Create(2048);
     private readonly TestStore store = new();

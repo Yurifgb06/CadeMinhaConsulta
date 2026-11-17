@@ -2,7 +2,7 @@
 
 ## Conexão local
 
-A API lê `ConnectionStrings:Oracle` e `Oracle:Schema` do projeto `VagaCerta.Api`. O provider existente, `Oracle.EntityFrameworkCore` com ODP.NET Core gerenciado, faz a conexão direta. O Oracle Client nativo não é necessário para essa configuração. [Configuração do ODP.NET Core](https://docs.oracle.com/en/database/oracle/oracle-database/21/odpnt/InstallCoreConfiguration.html)
+A API lê `ConnectionStrings:Oracle` e `Oracle:Schema` do projeto `CadeMinhaConsulta.Api`. O provider existente, `Oracle.EntityFrameworkCore` com ODP.NET Core gerenciado, faz a conexão direta. O Oracle Client nativo não é necessário para essa configuração. [Configuração do ODP.NET Core](https://docs.oracle.com/en/database/oracle/oracle-database/21/odpnt/InstallCoreConfiguration.html)
 
 Use **Gerenciar Segredos do Usuário** no Visual Studio ou execute `tools/Set-OracleLocalSecrets.ps1` interativamente no PowerShell 7. Informe o host, identificador, usuário e schema pelos parâmetros. A senha é solicitada pelo script e gravada em User Secrets por entrada padrão, fora dos argumentos do processo. Use apenas os dados fornecidos pelo proprietário.
 

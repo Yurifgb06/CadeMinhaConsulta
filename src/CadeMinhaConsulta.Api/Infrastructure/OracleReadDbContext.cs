@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace VagaCerta.Api.Infrastructure;
+namespace CadeMinhaConsulta.Api.Infrastructure;
 
 public sealed class OracleReadDbContext(
     DbContextOptions<OracleReadDbContext> options, IConfiguration configuration) : DbContext(options)

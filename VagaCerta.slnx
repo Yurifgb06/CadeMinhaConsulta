@@ -1,8 +1,0 @@
-<Solution>
-  <Folder Name="/src/">
-    <Project Path="src/VagaCerta.Api/VagaCerta.Api.csproj" />
-  </Folder>
-  <Folder Name="/tests/">
-    <Project Path="tests/VagaCerta.InfrastructureTests/VagaCerta.InfrastructureTests.csproj" />
-  </Folder>
-</Solution>

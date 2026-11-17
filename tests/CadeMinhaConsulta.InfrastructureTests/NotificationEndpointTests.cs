@@ -12,17 +12,17 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
 using MongoDB.Driver;
-using VagaCerta.Api.Features.Notifications;
-using VagaCerta.Api.Infrastructure;
+using CadeMinhaConsulta.Api.Features.Notifications;
+using CadeMinhaConsulta.Api.Infrastructure;
 using Xunit;
-using static VagaCerta.InfrastructureTests.NotificationProjectionTests;
+using static CadeMinhaConsulta.InfrastructureTests.NotificationProjectionTests;
 
-namespace VagaCerta.InfrastructureTests;
+namespace CadeMinhaConsulta.InfrastructureTests;
 
 public sealed class NotificationEndpointTests : IDisposable
 {
     private const string Issuer = "https://issuer.example.test";
-    private const string Audience = "vagacerta-notifications-test";
+    private const string Audience = "cade-minha-consulta-notifications-test";
     private const string ListPath = "/api/notifications/me";
     private readonly RSA signingKey = RSA.Create(2048);
     private readonly TestAppointments oracle = new();

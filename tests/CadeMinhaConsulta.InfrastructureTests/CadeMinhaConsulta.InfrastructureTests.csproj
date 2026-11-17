@@ -3,6 +3,8 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <AssemblyName>CadeMinhaConsulta.InfrastructureTests</AssemblyName>
+    <RootNamespace>CadeMinhaConsulta.InfrastructureTests</RootNamespace>
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
   </PropertyGroup>
@@ -11,6 +13,6 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
     <PackageReference Include="xunit" Version="2.9.3" />
     <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5" PrivateAssets="all" />
-    <ProjectReference Include="../../src/VagaCerta.Api/VagaCerta.Api.csproj" />
+    <ProjectReference Include="../../src/CadeMinhaConsulta.Api/CadeMinhaConsulta.Api.csproj" />
   </ItemGroup>
 </Project>

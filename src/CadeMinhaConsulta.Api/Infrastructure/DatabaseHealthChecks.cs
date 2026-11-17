@@ -3,7 +3,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace VagaCerta.Api.Infrastructure;
+namespace CadeMinhaConsulta.Api.Infrastructure;
 
 internal sealed class OracleHealthCheck(
     OracleReadDbContext database, IConfiguration configuration) : IHealthCheck

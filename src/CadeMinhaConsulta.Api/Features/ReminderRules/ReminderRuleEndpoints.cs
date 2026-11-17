@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
-using VagaCerta.Api.Infrastructure;
+using CadeMinhaConsulta.Api.Infrastructure;
 
-namespace VagaCerta.Api.Features.ReminderRules;
+namespace CadeMinhaConsulta.Api.Features.ReminderRules;
 
 internal static class ReminderRuleEndpoints
 {

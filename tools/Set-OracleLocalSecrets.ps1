@@ -19,7 +19,7 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-$project = Join-Path (Split-Path -Parent $PSScriptRoot) 'src\VagaCerta.Api'
+$project = Join-Path (Split-Path -Parent $PSScriptRoot) 'src\CadeMinhaConsulta.Api'
 $nameField = if ($Naming -eq 'Sid') { 'SID' } else { 'SERVICE_NAME' }
 $descriptor = "(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=$Server)(PORT=$Port))(CONNECT_DATA=($nameField=$Identifier)))"
 $connection = [System.Data.Common.DbConnectionStringBuilder]::new()
