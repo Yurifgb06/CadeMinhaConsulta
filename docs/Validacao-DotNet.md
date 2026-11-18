@@ -1,5 +1,35 @@
 # Validação do backend .NET
 
+## Revisão profissional de 18/11/2026
+
+O código foi conferido contra as páginas 23–28 do edital. A revisão abrangeu os dois projetos, os três scripts PowerShell, endpoints, contratos, persistência, autenticação, filtros, tratamento de falhas e os testes. Os arquivos e os cenários de cada critério estão relacionados no [roteiro da banca](Roteiro-Demonstracao.md).
+
+| Verificação executada | Resultado desta revisão |
+|---|---|
+| Restore e build de `CadeMinhaConsulta.slnx` | Sucesso; zero avisos e zero erros no build. |
+| xUnit com MongoDB real em banco dedicado | 47 aprovados, zero falhas e zero pulados. O total permanece igual ao de referência. |
+| Auditoria NuGet direta e transitiva | Nenhum pacote vulnerável reportado pelas fontes configuradas na consulta. |
+| Swagger UI e OpenAPI no Kestrel | HTTP 200; 10 operações documentadas, com saúde pública e Bearer nas rotas protegidas. |
+| Health Checks reais | Liveness 200; readiness 200, Oracle e MongoDB Healthy. |
+| CRUD e erros de entrada | 200, 201, 204 e 404 no MongoDB real. Entrada inválida, ausência de chave e corpo JSON nulo retornaram 400. |
+| Autorização | GET anônimo 401; escrita com CIDADAO 403; diagnóstico com token GESTOR 204. |
+| Idempotência e rate limiting | Replay com 201 e corpo/Location originais; conflito 409; excesso 429 com Retry-After. Os testes MongoDB verificaram concorrência e reinício do host. |
+| Notificações com Oracle real | GET 200 com consulta fictícia do titular. PATCH próprio 204 repetido; PATCH alheio 404; leitura persistida no MongoDB isolado. |
+| Configuração local | User Secrets permaneceu idêntico antes e depois da validação HTTP. |
+
+### Correções e limpeza
+
+- O README foi refeito com apresentação CitizenTech, badges, arquitetura Mermaid, pré-requisitos, configuração, contratos, erros HTTP, exemplos JSON, testes e rubrica.
+- Foram corrigidos registros de entrega desatualizados que ainda diziam que o repositório estava sem remoto e o link aguardava publicação.
+- Não foi identificada falha funcional reproduzível que exigisse modificar os fontes, testes ou dependências nesta revisão. A arquitetura e o comportamento existente foram preservados.
+- Nenhum arquivo versionado foi excluído. A documentação técnica e a tela de referência Mobile têm links e finalidade de entrega. Temporários, binários, backups e dados locais continuam fora do Git.
+- O README não contém as seções de declaração de IA ou histórico de renomeação. Os identificadores necessários ao ambiente são documentados como configuração técnica.
+- A triagem de segurança examinou os arquivos atuais e 69 blobs únicos em 6 commits acessíveis, sem padrões de tokens, chaves privadas ou credenciais. As exclusões de User Secrets, dados MongoDB e backups Oracle foram verificadas. A revisão manteve todos os testes, scripts e documentos de evidência.
+
+### Histórico remoto e branch local
+
+A inspeção remota encontrou `main` e `docs/revisao-final-edital-dotnet` em `de9551d`. Os dois commits posteriores a `acd74d4` modificavam o README. A árvore limpa foi atualizada por fast-forward antes da revisão. O trabalho atual está em `review/fechamento-profissional-dotnet`, preservando a branch de revisão existente. A publicação desta revisão depende de autorização.
+
 ## Ambiente e verificação
 
 - Visual Studio Community 2026 com workload web, SDK .NET 11.0.100 e runtime ASP.NET Core 10.0.15. A solução continua compilando com alvo `net10.0`.
@@ -43,7 +73,20 @@ A evidência de consumo pelo aplicativo depende da execução no projeto da equi
 
 ## Conferência da entrega
 
-- A branch `main` contém os commits locais, sem remoto. A revisão do conjunto versionável procurou credenciais em texto, tokens, chaves privadas, binários e dados locais. A entrega ainda precisa de um repositório GitHub com README acessível ao professor.
-- O ZIP preliminar, na pasta local de entrega ignorada pelo Git, contém o TXT conferido dos cinco integrantes e um arquivo de link sinalizado como pendente. Substitua o aviso pelo link verdadeiro antes de enviar. Inclua o PowerPoint se houver. O PDF pede RM, nome completo e turma no TXT e indica desconto de 100 pontos para arquivo incompleto, corrompido ou sem identificação. A equipe precisa revisar a declaração de uso de IA no README.
+- O repositório público é [Yurifgb06/CadeMinhaConsulta](https://github.com/Yurifgb06/CadeMinhaConsulta). O remoto `origin` está configurado. A revisão profissional atual é local e aguarda autorização para publicação.
+- O ZIP de entrega local contém o TXT dos cinco integrantes e o link verdadeiro do GitHub. Inclua o PowerPoint se houver. O link aponta para o conteúdo publicado; o README desta revisão só estará disponível nesse link depois do push autorizado.
 - O ZIP técnico anterior à renomeação foi extraído e compilado. Na pasta de extração, o Controle de Aplicativos do Windows bloqueou o carregamento da DLL da API com `0x800711C7`. Os 47 testes aprovados correspondem à execução no workspace principal.
 - Exclua do ZIP as pastas `.local`, `.vs`, `bin`, `obj` e quaisquer arquivos com segredos. O envio pelo Portal FIAP está previsto até **19/11/2026 às 23h55**.
+
+## Riscos e critérios de apresentação
+
+| Item do edital | Consequência indicada | Situação e ação da equipe |
+|---|---|---|
+| Prazo ou envio fora do Portal | Desconto de 30 pontos | Enviar até 19/11/2026 às 23h55. |
+| Arquivo corrompido, incompleto ou sem identificação | Desconto de 100 pontos | Conferir o ZIP final e manter o TXT com os cinco integrantes. |
+| Solução sem relação com CitizenTech | Desconto de 100 pontos | Apresentar o problema das consultas públicas e a utilidade ao cidadão. |
+| API que não executa ou falha impedindo seu uso | Desconto de 20 pontos | Backend validado; garantir acesso aos bancos e tokens válidos na sessão da banca. |
+| Falta de organização mínima ou credenciais expostas | Desconto de 20 pontos | Árvore, histórico e exclusões revisados; User Secrets e dados locais fora do Git. |
+| Consumo .NET pelo Mobile, citado na página 23 | A página não separa uma pontuação própria | Execução no React Native pendente da equipe Mobile. O teste HTTP não foi apresentado como execução no app. |
+
+A página 28 chama a apresentação .NET de online, entre 23 e 27/11, valendo 30% da nota. Dentro da apresentação, o slide distribui 20 pontos para funcionamento, 20 para questões de estrutura, 20 para decisões de design, 20 para fluxos principais, 10 para componentes .NET e 10 para CitizenTech. O roteiro técnico cobre esses tópicos. A interoperabilidade JWT de produção com Java continua dependente do contrato da equipe; a autenticação local validada funciona como demonstração em Development.
