@@ -2,8 +2,8 @@
 
 ```mermaid
 flowchart LR
-    Mobile[React Native] --> API[ASP.NET Core Minimal APIs]
-    Mobile --> Java[API Java]
+    Mobile["React Native — integração prevista"] -.-> API[ASP.NET Core Minimal APIs]
+    Mobile -.-> Java[API Java]
     API -->|SELECT via EF Core| Oracle[(Oracle DBv3)]
     Java -->|Consultas e fila| Oracle
     API -->|Notificações e regras| Mongo[(MongoDB)]

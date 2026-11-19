@@ -73,8 +73,8 @@ A evidência de consumo pelo aplicativo depende da execução no projeto da equi
 
 ## Conferência da entrega
 
-- O repositório público é [Yurifgb06/CadeMinhaConsulta](https://github.com/Yurifgb06/CadeMinhaConsulta). O remoto `origin` está configurado. A revisão profissional atual é local e aguarda autorização para publicação.
-- O ZIP de entrega local contém o TXT dos cinco integrantes e o link verdadeiro do GitHub. Inclua o PowerPoint se houver. O link aponta para o conteúdo publicado; o README desta revisão só estará disponível nesse link depois do push autorizado.
+- O repositório público é [Yurifgb06/CadeMinhaConsulta](https://github.com/Yurifgb06/CadeMinhaConsulta). O remoto `origin` está configurado. A revisão profissional está registrada no [PR #1](https://github.com/Yurifgb06/CadeMinhaConsulta/pull/1); seu histórico permite conferir a publicação e o merge.
+- O ZIP definitivo contém somente `Identificacao-do-grupo.txt`, com os cinco integrantes, e `Link-do-GitHub.txt`, com a URL pública verdadeira. O link aponta para o conteúdo da branch `main` no GitHub.
 - O ZIP técnico anterior à renomeação foi extraído e compilado. Na pasta de extração, o Controle de Aplicativos do Windows bloqueou o carregamento da DLL da API com `0x800711C7`. Os 47 testes aprovados correspondem à execução no workspace principal.
 - Exclua do ZIP as pastas `.local`, `.vs`, `bin`, `obj` e quaisquer arquivos com segredos. O envio pelo Portal FIAP está previsto até **19/11/2026 às 23h55**.
 

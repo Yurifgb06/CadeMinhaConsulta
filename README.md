@@ -30,8 +30,8 @@ As notificações são atualizadas quando o cliente consulta a API. `observedAtU
 
 ```mermaid
 flowchart LR
-    Mobile["React Native<br/>consumo a demonstrar"] --> API["Cadê Minha Consulta<br/>.NET Minimal APIs"]
-    Mobile --> Java["API Java independente"]
+    Mobile["React Native<br/>integração prevista"] -.-> API["Cadê Minha Consulta<br/>.NET Minimal APIs"]
+    Mobile -.-> Java["API Java independente"]
     API --> Auth["JWT · autorização · rate limiting"]
     Auth --> Rules["Regras de lembrete"]
     Auth --> Notifications["Notificações do titular"]
@@ -290,7 +290,7 @@ O cenário xUnit de notificações usa consultas fornecidas pelo teste e MongoDB
 | xUnit | 20 | 47 casos, incluindo dois com MongoDB real. |
 | Health Checks | 10 | `DatabaseHealthChecks.cs` e rotas públicas, exercitadas no Kestrel. |
 
-O [roteiro técnico](docs/Roteiro-Demonstracao.md) relaciona cada critério aos arquivos, testes e passos de demonstração. O consumo pelo React Native permanece pendente da equipe Mobile. A interoperabilidade com o emissor Java de produção depende da confirmação do contrato.
+O [roteiro técnico](docs/Roteiro-Demonstracao.md) relaciona cada critério aos arquivos, testes e passos de demonstração.
 
 ## Documentação e entrega acadêmica
 
@@ -302,8 +302,4 @@ O [roteiro técnico](docs/Roteiro-Demonstracao.md) relaciona cada critério aos 
 | [Roteiro da banca](docs/Roteiro-Demonstracao.md) | Sequência no Swagger e perguntas técnicas. |
 | [Contrato Mobile](docs/Contrato-Mobile.md) | URLs, JWT e exemplo de tela para a equipe React Native. |
 
-Projeto acadêmico de **Análise e Desenvolvimento de Sistemas — FIAP**, Global Solution **2026/2**, tema **CitizenTech**, disciplina **Advanced Business Development with .NET**.
-
-O edital prevê repositório GitHub com README e ZIP com o link verdadeiro e TXT contendo nome completo, RM e turma dos integrantes. O PowerPoint acompanha a entrega se houver. Prazo no Portal FIAP: **19/11/2026 às 23h55**. A apresentação da disciplina está prevista para **23 a 27/11**, vale 30% da nota e inclui demonstração dos fluxos e explicação das decisões de projeto.
-
-[Repositório oficial](https://github.com/Yurifgb06/CadeMinhaConsulta)
+Projeto acadêmico de **Análise e Desenvolvimento de Sistemas — FIAP**, Global Solution **2026**, tema **CitizenTech**, disciplina **Advanced Business Development with .NET**.
